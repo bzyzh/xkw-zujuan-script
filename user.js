@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         组卷网试卷处理下载打印
+// @name         组卷网学科网试卷处理下载打印
 // @version      2.0.0
 // @namespace
-// @description  【2024/8/4】自动处理组卷网试卷，并打印。
+// @description  【2024/8/4】✨ 自动处理组卷网学科网试卷，并打印，支持去广告，答案分离。
 // @author       nuym
 // @match        https://zujuan.xkw.com/zujuan
 // @match        https://zujuan.xkw.com/*.html
