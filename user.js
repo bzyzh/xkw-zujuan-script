@@ -1,14 +1,15 @@
 // ==UserScript==
 // @name         组卷网试卷处理下载打印
-// @version      1.0.0
+// @version      2.0.0
 // @namespace
-// @description  【2024/8/3】自动处理组卷网试卷，并打印。
+// @description  【2024/8/4】自动处理组卷网试卷，并打印。
 // @author       nuym
 // @match        https://zujuan.xkw.com/zujuan
 // @match        https://zujuan.xkw.com/*.html
+// @match        https://zujuan.xkw.com/gzsx/zhineng/*
 // @icon         https://zujuan.xkw.com/favicon.ico
-// @grant        GM_registerMenuCommand
 // @grant        GM_notification
+// @require      https://cdn.jsdelivr.net/npm/sweetalert2@11
 // @homepage https://github.com/bzyzh/xkw-zujuan-script
 // @license      GNU Affero General Public License v3.0
 // ==/UserScript==
@@ -23,7 +24,7 @@
     var endtime = document.getElementsByClassName('end-time')[0].innerText;
 
     console.log("-----------------------------------------------");
-    console.log("🔹版本：1.0.0");
+    console.log("🔹版本：2.0.0");
     console.log("🔹作者：nuym");
     console.log("🔹开源地址：https://github.com/bzyzh/xkw-zujuan-script");
     console.log("🔹学校网站：https://www.bzyzh.com");
@@ -39,102 +40,297 @@
         console.log("✅ 去除广告成功");
     }
 
-    // 注册菜单命令以处理后自动刷新
-    GM_registerMenuCommand("处理后自动刷新", () => {
-        var autoRefreshStatus = localStorage.getItem("EnableAutoRefresh");
-        if (autoRefreshStatus === 'N') {
-            localStorage.setItem("EnableAutoRefresh", 'Y');
-            GM_notification("处理后自动刷新：已开启");
-        } else {
-            localStorage.setItem("EnableAutoRefresh", 'N');
-            GM_notification("处理后自动刷新：已关闭");
-        }
-    });
+    // 签到 TODO:代码逻辑问题(来源于https://greasyfork.org/zh-CN/scripts/497198-%E7%BB%84%E5%8D%B7%E7%BD%91%E8%87%AA%E5%8A%A8%E7%AD%BE%E5%88%B0%E8%84%9A%E6%9C%AC/code)
+        function checkIn() {
+        var signInBtn = document.querySelector('a.sign-in-btn');
+        var daySignInBtn = document.querySelector('a.day-sign-in');
 
-    // 初始化处理后自动刷新状态
-    if (localStorage.getItem("EnableAutoRefresh") == null) {
-        localStorage.setItem("EnableAutoRefresh", 'Y');
+        if (signInBtn) {
+            signInBtn.click();
+        }
+
+        if (daySignInBtn) {
+            daySignInBtn.click();
+        }
     }
 
-    console.log("🔹 创建按钮对象...");
-    var printButton = document.createElement('a');
-    printButton.className = "btnTestDown link-item anchor-font3";
-    printButton.innerHTML = `<i class="icon icon-download1"></i><span>打印试卷</span>`;
+    function canCheckIn() {
+        var signedInLink = document.querySelector('.user-assets-box a.assets-method[href="/score_task/"]');
 
-    // 打印按钮点击事件
-    printButton.onclick = function() {
-        var enableAutoRefresh = localStorage.getItem("EnableAutoRefresh") === 'Y';
+        // 如果找到了表示已签到的链接，且其文本包含“已签到”，则返回false，否则返回true
+        return !signedInLink || signedInLink.textContent !== '已签到';
+    }
 
-        // 删除指定类名的元素
-        function deleteElementByClassName(className) {
-            while (true) {
-                var elements = document.getElementsByClassName(className);
-                if (elements.length === 0) break;
-                elements[0].remove();
-            }
+    function signInLogic() {
+        if (canCheckIn()) {
+            checkIn();
         }
+    }
 
-        // 删除指定ID的元素
-        function deleteElementById(id) {
-            var element = document.getElementById(id);
-            if (element) element.remove();
+
+    function debug() {
+        console.log('检查是否可以签到：', canCheckIn());
+        console.log('执行签到逻辑：', signInLogic());
+    }
+
+
+    window.addEventListener('load', function() {
+        debug();
+    }, false);
+
+
+    // 应用CSS样式
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `
+        #zujuanjs-reformatted-content {
+            background: white;
         }
-
-        // 根据类名移除元素边框
-        function removeBorderByClassName(className) {
-            var elements = document.getElementsByClassName(className);
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].setAttribute('style', 'margin-bottom: 0;');
-            }
+        .zujuanjs-question {
+            margin-bottom: 10px;
+            padding: 10px;
         }
-
-        // 根据类名改变元素的CSS
-        function changeCssByClassName(className, css) {
-            var elements = document.getElementsByClassName(className);
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].setAttribute('style', css);
-            }
+        .zujuanjs-question .left-msg {
+            margin-bottom: 5px;
+            font-size: 0.8em;
+            color: #666;
         }
-
-        // 获取试卷信息
-        var paperTitle = document.getElementsByClassName('title-txt')[9].innerText;
-        var subject = document.getElementsByClassName('subject-menu__title')[0].innerText;
-
-        // 删除不必要的元素
-        deleteElementByClassName('header');
-        deleteElementByClassName('bread-nav');
-        deleteElementByClassName('fiexd-nav');
-        deleteElementByClassName('footer');
-        deleteElementByClassName('other-info');
-        deleteElementByClassName('info-list');
-        deleteElementByClassName('tools');
-        deleteElementByClassName('exam-item__info');
-        deleteElementByClassName('add-sec-ques');
-        deleteElementById('paperAnalyze');
-        deleteElementByClassName('exam-analyze');
-
-        // 修改指定元素的CSS
-        changeCssByClassName('selected-maskt', 'opacity: 1;');
-
-        // 通知并打印
-        console.log("✅ 处理成功！");
-        GM_notification(subject + '| ' + paperTitle + "\n ✅ 试卷处理成功！");
-        window.print();
-
-        // 自动刷新
-        if (enableAutoRefresh) {
-            window.location.reload();
+        #page-title {
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            margin: 20px 0;
         }
-    };
+    `;
+    document.head.appendChild(style);
 
-    console.log("🔹 查找将要添加的位置...");
     // 查找目标元素并将打印按钮添加到目标位置
+    console.log("🔹 查找将要添加的位置...");
     var targetElement = document.getElementsByClassName('link-box')[0] || document.getElementsByClassName('btn-box clearfix')[0];
     if (targetElement) {
+        console.log("🔹 创建按钮对象...");
+        var printButton = document.createElement('a');
+        printButton.className = "btnTestDown link-item anchor-font3";
+        printButton.innerHTML = `<i class="icon icon-download1"></i><span>打印试卷</span>`;
         targetElement.appendChild(printButton);
+
+        // 绑定点击事件给 printButton
+        printButton.onclick = printButtonClickHandler;
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            },
+        });
+        Toast.fire({
+            icon: "success",
+            title: "程序已就绪!",
+        });
         console.log("✅ 程序已就绪!");
     } else {
-        console.error("❌ 无法找到将要添加的位置，程序现在将停止");
-        alert('❌ 出错了\n脚本无法找到将要添加的位置，程序现在将停止。请联系脚本作者更新!');
+        var targetElementInOtherPlace = document.getElementsByClassName('btn donwload-btn')[0];
+        if(targetElementInOtherPlace){
+            // 创建新的按钮并添加到试卷下载按钮旁边
+            var newPrintButton = document.createElement('a');
+            newPrintButton.id = "print-exam";
+            newPrintButton.className = "btn";
+            newPrintButton.innerHTML = `<i class="icon icon-download"></i><span>打印试卷</span>`;
+
+            // 添加新的按钮到现有的按钮容器中
+            var btnBox = document.querySelector('.btn-box');
+            if (btnBox) {
+            btnBox.appendChild(newPrintButton);
+
+            // 绑定点击事件给 newPrintButton
+            newPrintButton.onclick = printButtonClickHandler;
+            }
+        }else{
+
+            console.error("❌ 无法找到将要添加的位置，程序现在将停止");
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                },
+            });
+            Toast.fire({
+                icon: "error",
+                title: "无法找到将要添加的位置，程序现在将停止",
+            });
+        }
     }
+
+    function printButtonClickHandler() {
+        Swal.fire({
+            title: "是否需要打印答案?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "单独打印",
+            denyButtonText: `和试题一起打印`,
+        }).then((result) => {
+            let includeQuestions = false;
+            let includeAnswers = false;
+            var checkboxSpan = document.querySelector('.tklabel-checkbox.show-answer');
+
+            if (!checkboxSpan) {
+                includeQuestions = true;
+                includeAnswers = false;
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    },
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "当前页面不支持打印答案，如果需要，请点击分享试卷后打开链接。",
+                });
+            } else {
+                includeAnswers = true;
+            }
+
+            if (result.isDenied) {
+                if (!checkboxSpan) {
+                    includeQuestions = true;
+                    includeAnswers = false;
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        },
+                    });
+                    Toast.fire({
+                        icon: "error",
+                        title: "当前页面不支持打印答案，如果需要，请点击分享试卷后打开链接。",
+                    });
+                } else {
+                    includeQuestions = true;
+                }
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                includeQuestions = true;
+                includeAnswers = false;
+            }
+
+            handlePrint(includeQuestions, includeAnswers);
+        });
+    }
+
+    function handlePrint(includeQuestions, includeAnswers) {
+        clickShowAnswersButton();
+
+        var intervalId = window.setInterval(function() {
+            if (document.readyState === "complete") {
+                clearInterval(intervalId);
+                var newPageBody = getReformattedContent(includeQuestions, includeAnswers);
+                var titleElement = document.querySelector('.exam-title .title-txt');
+                var subject = document.getElementsByClassName('subject-menu__title')[0].innerText;
+
+                if (titleElement) {
+                    var pageTitle = titleElement.textContent.trim();
+                    var titleDiv = document.createElement('div');
+                    titleDiv.id = 'page-title';
+                    titleDiv.textContent = pageTitle;
+                    newPageBody.insertBefore(titleDiv, newPageBody.firstChild);
+                } else {
+                    console.log('Title element not found');
+                }
+
+                document.body.innerHTML = '';
+                document.body.appendChild(newPageBody);
+                console.log("✅ 处理成功！");
+                GM_notification(subject + ' | ' + pageTitle + "\n ✅ 试卷处理成功！");
+                print();
+            }
+        }, 2000);
+    }
+
+    function getReformattedContent(includeQuestions, includeAnswers) {
+        var newPageBody = document.createElement('div');
+        newPageBody.id = 'zujuanjs-reformatted-content';
+
+        // 获取所有的题目元素
+        var questions = document.querySelectorAll('.tk-quest-item.quesroot');
+
+        // 遍历每个题目元素
+        questions.forEach(function(question) {
+            var newQuestionDiv = document.createElement('div');
+            newQuestionDiv.className = 'zujuanjs-question';
+
+            if (includeQuestions) {
+                var questionContentDiv = question.querySelector('.wrapper.quesdiv');
+                if (questionContentDiv) {
+                    newQuestionDiv.appendChild(questionContentDiv.cloneNode(true));
+                }
+            }
+
+            if (includeAnswers) {
+                var answerContentDiv = question.querySelector('.exam-item__opt');
+                if (answerContentDiv) {
+                    newQuestionDiv.appendChild(answerContentDiv.cloneNode(true));
+                }
+            }
+
+            newPageBody.appendChild(newQuestionDiv);
+        });
+
+        return newPageBody;
+    }
+
+    function clickShowAnswersButton() {
+        var checkboxSpan = document.querySelector('.tklabel-checkbox.show-answer');
+        if (checkboxSpan) {
+            var checkbox = checkboxSpan.querySelector('input[type="checkbox"]');
+            if (checkbox && !checkbox.checked) {
+                var label = checkboxSpan.querySelector('label');
+                if (label) {
+                    label.click();
+                }
+            }
+        }
+    }
+
+    // 监听键盘事件--debug用
+    document.addEventListener('keydown', function(e) {
+        if (e.code === "Escape") {
+            var newPageBody = getReformattedContent(true, false);
+            var titleElement = document.querySelector('.exam-title .title-txt');
+            if (titleElement) {
+                var pageTitle = titleElement.textContent.trim();
+                var titleDiv = document.createElement('div');
+                titleDiv.id = 'page-title';
+                titleDiv.textContent = pageTitle;
+                newPageBody.insertBefore(titleDiv, newPageBody.firstChild);
+            } else {
+                console.log('❌ 无法找到题目');
+            }
+            document.body.innerHTML = '';
+            document.body.appendChild(newPageBody);
+        }
+    });
 })();
+
+
+
+
+
