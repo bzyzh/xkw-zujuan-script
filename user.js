@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         组卷网学科网试卷处理下载打印
-// @version      2.1.1
+// @version      2.1.2
 // @namespace
 // @description  【2024/11/16】✨ 自动处理组卷网学科网试卷，并打印，支持去广告，答案分离。
 // @author       nuym
@@ -301,12 +301,7 @@ function printButtonClickHandler() {
                 }
             }
 
-            if (includeAnswers) {
-                var answerContentDiv = question.querySelector('.exam-item__opt');
-                if (answerContentDiv) {
-                    newQuestionDiv.appendChild(answerContentDiv.cloneNode(true));
-                }
-            }
+
 
             newPageBody.appendChild(newQuestionDiv);
         });
