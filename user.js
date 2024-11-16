@@ -171,18 +171,44 @@
         }
     }
 
-    function printButtonClickHandler() {
-        Swal.fire({
-            title: "是否需要打印答案?",
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: "单独打印",
-            denyButtonText: `和试题一起打印`,
-        }).then((result) => {
-            let includeQuestions = false;
-            let includeAnswers = false;
-            var checkboxSpan = document.querySelector('.tklabel-checkbox.show-answer');
+function printButtonClickHandler() {
+    Swal.fire({
+        title: "是否需要打印答案?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "单独打印",
+        denyButtonText: `和试题一起打印`,
+    }).then((result) => {
+        let includeQuestions = false;
+        let includeAnswers = false;
+        var checkboxSpan = document.querySelector('.tklabel-checkbox.show-answer');
 
+        // 如果找不到答案显示的复选框
+        if (!checkboxSpan) {
+            includeQuestions = true;
+            includeAnswers = false;
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                },
+            });
+            Toast.fire({
+                icon: "error",
+                title: "当前页面不支持打印答案，如果需要，请点击分享试卷后打开链接。",
+            });
+        } else {
+            includeAnswers = true;
+        }
+
+        // 处理弹窗按钮点击的结果
+        if (result.isDenied) {
+            // 选中了"和试题一起打印"（即拒绝按钮），但没有答案复选框
             if (!checkboxSpan) {
                 includeQuestions = true;
                 includeAnswers = false;
@@ -202,43 +228,33 @@
                     title: "当前页面不支持打印答案，如果需要，请点击分享试卷后打开链接。",
                 });
             } else {
-                includeAnswers = true;
+                includeQuestions = true;
             }
-
-            if (result.isDenied) {
-                if (!checkboxSpan) {
-                    includeQuestions = true;
-                    includeAnswers = false;
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        },
-                    });
-                    Toast.fire({
-                        icon: "error",
-                        title: "当前页面不支持打印答案，如果需要，请点击分享试卷后打开链接。",
-                    });
-                } else {
-                    includeQuestions = true;
-                }
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
+        } else if (result.isConfirmed) {
+            // 如果点击了确认按钮"单独打印"
+            if (checkboxSpan) {
+                includeQuestions = false;
+                includeAnswers = true;
+            } else {
                 includeQuestions = true;
                 includeAnswers = false;
             }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            // 点击了"取消"按钮，不打印答案，只打印试题
+            includeQuestions = true;
+            includeAnswers = false;
+        }
 
-            handlePrint(includeQuestions, includeAnswers);
-        });
-    }
+        // 最终调用打印处理
+        handlePrint(includeQuestions, includeAnswers);
+    });
+}
+
 
     function handlePrint(includeQuestions, includeAnswers) {
-        clickShowAnswersButton();
-
+        if (includeAnswers) {// 修复这里的条件，确保不会无意中赋值
+            clickShowAnswersButton();
+        }
         var intervalId = window.setInterval(function() {
             if (document.readyState === "complete") {
                 clearInterval(intervalId);
@@ -329,8 +345,3 @@
         }
     });
 })();
-
-
-
-
-
