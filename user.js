@@ -178,6 +178,7 @@ function printButtonClickHandler() {
         showCancelButton: true,
         confirmButtonText: "单独打印",
         denyButtonText: `和试题一起打印`,
+        cancelButtonText:"仅打印试题",
     }).then((result) => {
         let includeQuestions = false;
         let includeAnswers = false;
