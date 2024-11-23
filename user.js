@@ -11,7 +11,7 @@
 // @icon         https://zujuan.xkw.com/favicon.ico
 // @grant        GM_notification
 // @require      https://cdn.jsdelivr.net/npm/sweetalert2@11
-// @homepage https://github.com/bzyzh/xkw-zujuan-script
+// @homepage     https://github.com/bzyzh/xkw-zujuan-script
 // @license      GNU Affero General Public License v3.0
 // ==/UserScript==
 
@@ -30,6 +30,7 @@
     console.log("🔹开源地址：https://github.com/bzyzh/xkw-zujuan-script");
     console.log("🔹学校网站：https://www.bzyzh.com");
     console.log("🔹组卷网用户： %s", username);
+    console.log("🔹亳州一中学生作品~", username);
     //console.log("🔹组卷网等级： %s", usertype);
     //console.log("🔹组卷网到期时间： %s", endtime);
     console.log("-----------------------------------------------");
