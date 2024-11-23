@@ -7,6 +7,7 @@
 // @match        https://zujuan.xkw.com/zujuan
 // @match        https://zujuan.xkw.com/*.html
 // @match        https://zujuan.xkw.com/gzsx/zhineng/*
+// @match        https://zujuan.xkw.com/share-paper/*
 // @icon         https://zujuan.xkw.com/favicon.ico
 // @grant        GM_notification
 // @require      https://cdn.jsdelivr.net/npm/sweetalert2@11
