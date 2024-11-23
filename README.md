@@ -2,6 +2,8 @@
 
 使用油猴插件对组卷网进行文档处理并下载
 
+亳州一中学生作品~
+
 > [!WARNING]  
 > 此脚本仍需要你有PLUS会员来浏览优质试卷，只能帮助你免费下载试卷。<br />
 > 如果你没有会员，只能打印普通试卷。
@@ -9,6 +11,10 @@
 --------
 ### 免责说明
 本软件仅供学习交流，如作他用所承受的法律责任一概与作者无关（下载使用即代表你同意上述观点）。
+
+### 开源地址
+https://github.com/bzyzh/xkw-zujuan-script/
+
 
 ### 安装
 - 1.使用 [FireFox](https://firefox.com) 或者 [Chrome](https://www.google.com/chrome/) 浏览器 下载 [Tampermonkey](https://www.tampermonkey.net/)
