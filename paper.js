@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         组卷网学科网试卷处理下载打印
-// @version      2.1.2
+// @version      2.1.3
 // @namespace
-// @description  【2024/11/16】✨ 自动处理组卷网学科网试卷，并打印，支持去广告，答案分离。
-// @author       nuym
+// @description  【2025/5/5】✨ 自动处理组卷网学科网试卷，并打印，支持去广告，答案分离。
+// @author       nuym, WorkingFishQ
 // @match        https://zujuan.xkw.com/zujuan
 // @match        https://zujuan.xkw.com/*.html
 // @match        https://zujuan.xkw.com/gzsx/zhineng/*
@@ -28,11 +28,12 @@
 
     console.log("-----------------------------------------------");
     console.log("🔹版本：2.0.0");
-    console.log("🔹作者：nuym");
+    console.log("🔹作者：nuym、WorkingFishT");
     console.log("🔹开源地址：https://github.com/bzyzh/xkw-zujuan-script");
     console.log("🔹学校网站：https://www.bzyzh.com");
     console.log("🔹组卷网用户： %s", username);
     console.log("🔹亳州一中学生作品~", username);
+    console.log("🔹修改自湛江一中学生", username);
     //console.log("🔹组卷网等级： %s", usertype);
     //console.log("🔹组卷网到期时间： %s", endtime);
     console.log("-----------------------------------------------");
