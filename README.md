@@ -4,6 +4,8 @@
 
 亳州一中学生作品~
 
+由湛江一中学生修改
+
 > [!WARNING]  
 > 此脚本仍需要你有PLUS会员来浏览优质试卷，只能帮助你免费下载试卷。<br />
 > 如果你没有会员，只能打印普通试卷。
@@ -38,6 +40,12 @@ https://github.com/bzyzh/xkw-zujuan-script/
 
   ![图片](https://github.com/user-attachments/assets/954feba7-3688-4dea-a785-5c1d707614ac)
 
+- 4.更改字体
+
+  点击“字体选择”按钮，输入字体名称及字号，点击“保存”。
+
+- 5.使用打印试卷
+
 - 4.使用打印试卷
 
   登录帐号后，点击打印试卷，如果需要打印答案，请勾选显示全部答案和解析。
@@ -45,10 +53,15 @@ https://github.com/bzyzh/xkw-zujuan-script/
   ![图片](https://github.com/user-attachments/assets/426d4b33-9888-4eff-8f50-bf408594f76f)
 
   关闭打印页眉和页脚，选择另存为PDF或者以一种你喜欢的方式打印。
+
   
   ![图片](https://github.com/user-attachments/assets/7d993ba6-86f4-4dc7-9979-321d0924900d)
 
   ![图片](https://github.com/user-attachments/assets/7e002dfd-8eb7-4dc9-8aa3-8b11b8cbc57a)
+
+  若要更改字体大小，可以在浏览器打印框内设置“缩放”。
+
+
 
 
   
