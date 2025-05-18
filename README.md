@@ -4,7 +4,7 @@
 
 亳州一中学生作品~
 
-由湛江一中学生修改
+由湛江一中学生参与开发
 
 > [!WARNING]  
 > 此脚本仍需要你有PLUS会员来浏览优质试卷，只能帮助你免费下载试卷。<br />
@@ -19,7 +19,7 @@ https://github.com/bzyzh/xkw-zujuan-script/
 
 
 ### 安装
-- 1.使用 [FireFox](https://firefox.com) 或者 [Chrome](https://www.google.com/chrome/) 浏览器 下载 [Tampermonkey](https://www.tampermonkey.net/)
+- 1.使用 [FireFox](https://firefox.com) 或者 [Chrome](https://www.google.com/chrome/) 或者[Edge](https://www.microsoft.com/zh-cn/edge)浏览器 下载 [Tampermonkey](https://www.tampermonkey.net/)
 - 2.根据官方文档安装
   ![图片](https://github.com/user-attachments/assets/5ccf3f0e-c451-4d33-972f-cda26a618bc4)
 - 3.下载脚本并安装
@@ -43,10 +43,8 @@ https://github.com/bzyzh/xkw-zujuan-script/
 - 4.更改字体
 
   点击“字体选择”按钮，输入字体名称及字号，点击“保存”。
-
+  
 - 5.使用打印试卷
-
-- 4.使用打印试卷
 
   登录帐号后，点击打印试卷，如果需要打印答案，请勾选显示全部答案和解析。
 
@@ -60,6 +58,10 @@ https://github.com/bzyzh/xkw-zujuan-script/
   ![图片](https://github.com/user-attachments/assets/7e002dfd-8eb7-4dc9-8aa3-8b11b8cbc57a)
 
   若要更改字体大小，可以在浏览器打印框内设置“缩放”。
+  
+  ![1](https://github.com/user-attachments/assets/964e5ed2-767c-4356-ab74-894d55d03c90)
+  
+  ![2](https://github.com/user-attachments/assets/9b92861c-78a0-45af-a436-a163c6ae0952)
 
 
 
