@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         组卷网学科网试卷处理下载打印
 // @version      2.3.0
-// @description  自动处理组卷网/学科网试卷，支持答案分离、字体选择、图片加载完成后打印
+// @description  【2025/01/25】✨ 自动处理组卷网/学科网试卷，支持答案分离、字体选择、图片加载完成后打印
 // @author       nuym, WorkingFishQ
 // @match        https://zujuan.xkw.com/*
 // @icon         https://zujuan.xkw.com/favicon.ico
