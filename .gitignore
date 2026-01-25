@@ -1,12 +1,1 @@
-*.lnk
-
-# 忽略所有 Vim 备份文件
-.*~
-# 忽略所有 Vim 撤销文件
-.*.un~
-# 忽略所有 Vim 交换文件
-.*.swp
-.*.swo
-.*.swn
-
-\reference.txt
+jyeoo.js
